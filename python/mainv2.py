@@ -216,7 +216,6 @@ def scenario_1():
     machine_4 = Machine('LT15', 7000, battery_2, 100)
 
     temps_1 = [-19.20, -18.20, -22.01, -19, -20, -21, -20.29, -19.20, -18.10]
-    temps_2 = [-15, -14, -12, -16]
 
     environment = Environment('Skøyen - Spikkestad', 110, [temps_1, temps_1])
     duration = 180
@@ -229,13 +228,8 @@ def scenario_1():
 def scenario_2():
     # Different Temperatures
     battery_1 = Battery('NMC',800, 0.8, 6800)
-    battery_2 = Battery('LTO',600, 0.8, 7260)
     machine_1 = Machine('LT15', 7000, battery_1, 300)
-    machine_2 = Machine('LT15', 7000, battery_1, 100)
-    machine_3 = Machine('LT15', 7000, battery_2, 300)
-    machine_4 = Machine('LT15', 7000, battery_2, 100)
 
-    temps_1 = [-19.20, -18.20, -22.01, -19, -20, -21, -20.29, -19.20, -18.10]
     temps_2 = [-10, -12, -9, -10, -12, -9, -10, -12, -9, -10, -12, -9 ]
     temps_3 = [-10, -40]
 
