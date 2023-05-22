@@ -1,6 +1,9 @@
 \documentclass{article}
 \usepackage{biblatex} %Imports biblatex package
 \usepackage{lipsum}  
+\usepackage{amsmath}  
+\usepackage{float}
+\usepackage{graphicx}
 
 \addbibresource{sources.bib} %Import the bibliography file
 
@@ -16,58 +19,558 @@
 
 \maketitle
 
-\pagebreak
+%\pagebreak
+
+\section{Abstract}
+
+Following a report published by SWECO in 2022, about possible electrification of LT15 work trains, Bane NOR has expressed an interest in third party calculations of the recommendation of the SWECO-report \cite{sweco}. The following report examines the recommendation of the SWECO-report, and investigates other solutions to electrification of LT15 with particular consideration for snow clearing at critical conditions.
+
+The results of this report is based on literature studies into different battery and charging solutions, as well as a modeling of an LT17 performing snow clearing on the railroad between Skøyen and Spikkestad. The data used in the modeling has been gathered through excursion, Bane NOR, as well as online resources. The analysis has focused on three parts: battery technology, charging technology and charging locations.
+
+As opposed to the SWECO-report, this report concludes that using batteries with a lithium titanate anode and a lithium ferro phosphate cathode (LTO), in combination with a combined charging system (CCS2), with charging stations at Skøyen, Asker and Spikkestad is an ideal combination of batteries, chargers and charging locations for this particular railroad during snow clearing in critical conditions.
 
 \section{Introduction}
+In 2015, the United Nations Paris agreement was signed, where countries made pledges for reducing their emission as a measure to mitigate global warming. Norway has pledged to reduce its emissions to 40\%, compared to 1990, by 2030. The transport sector is one of Norway’s main contributors to GHG (greenhouse gas)-emissions, which includes railways. In … Head of the ministry of transportation Jon-Ivar Nygård proclaimed that it is important to cut the GHG-emissions at work sites to meet Norway’s goals for reduced emissions. Bane NOR has begun investigating whether their work machines can be refitted with batteries and still be able to meet their current workload.
 
-    \lipsum[1-1]
+The LT15 is a light tractor locomotive, meant to do different kinds of maintenance on the tracks. One of these tasks is snow clearing, where the locomotive is fitted with a brush in front and a track clearer in the back. The LT15 is currently fitted with a diesel engine, using hydraulics to perform its tasks. This machine is currently out of use as there have been repeating issues concerning the hydraulic, which makes it a good candidate for electrification. In 2022, Sweco published a study on electrification of the LT15, where they made recommendations on what charging and battery technologies would best be suited for this purpose.
 
-    \subsection{Task}
+In their study they conclude that the ideal reconfiguration would be to use an integrated battery with charging through overhead lines and a pantograph, with the downsides of increased weight from the pantograph and transformer. This reduces the amount of weight which can be dedicated  for the battery, as well as making the work machine dependent on the overhead lines to be able to charge and perform tasks. The LT15 is meant to be a part of the readiness fleet, meaning that it needs to be operational in a multitude of situations, among these situations is work on the track in case of a power outage, such as a tree falling over the lines or something similar, which can prove troublesome for this kind of configuration. An alternative is to have bigger integrated batteries, which needs to be recharged with external infrastructure. This would give the work machines a longer range and work time when they are not connected to the overhead lines. 
 
-        \lipsum[1-1]
+One of the more energy intensive emergency preparedness tasks the LT15 must perform is snow clearing. Heavy snowfall requires the machine to be operational for longer periods to make sure that the tracks are clear for passenger and freight trains. With access to a pantograph and line power, the LT15 would be able to clear snow continuously, meaning that the pantograph would be an ideal configuration. However, if the machine needs to be configured with large integrated batteries, there are uncertainties whether the machine will be able to meet the requirement for readiness for snow clearing during heavy snowfall.
 
-    \subsection{Situation}
+In the Sweco report, the calculations are based on diesel consumption during different workloads for an LTR17, a similar engine, in Oppdal, which considered days of maintenance along the track and days of pulling heavy cargo, etc., but not days of snow clearing. It was assumed that snow clearing would have a similar energy consumption as that of a heavy workload, and the calculations on whether the LT15 would be able to perform a day of snow clearing was based on available numbers. Because the data set was incomplete for snow clearing, it is considered necessary to have a more thorough look specifically at snow clearing.
 
-        \lipsum[1-1]
+\section{Task}
 
-    \subsection{LT15}
+Currently, there is a LT15-work train stationed at Asker station. Bane NOR has expressed an interest in electrification of this machine as a pilot to see if it can meet the requirements for maintenance and snow clearing on the railroad between Skøyen and Spikkestad, which is currently manned by a LTR17, fitted with a diesel engine. This report is meant to answer the question of which battery and charging technology could meet the need for emergency preparedness for a fully electric LT15 work train, with particular consideration for snow clearing at critical conditions on the railroad between Skøyen and Spikkestad.
 
-        \lipsum[1-1]
+\subsection{Driftsmønster - this part should be after the theory?}
 
-    \subsection{Operational pattern}
+To make sure that the energy consumption model is as accurate as possible, it should be calibrated by comparing calculations of energy consumption with actual data on diesel consumption. As the LT15 is currently not operational, there is currently no available data on its diesel consumption. The LTR17 is a similar machine to the LT15, with similar weight and similar jobs. Currently an LTR17 is manning the railway between Skøyen and Spikkestad. In the absence of data on the LT15, it has been concluded that data from an LTR17 could be a sufficiently accurate substitute. In 2019, the Norwegian Railway Directorate published a report which included approximations on diesel consumption for an LTR17 while performing different tasks. In this report they stated approximations for diesel consumptions for both snow blowing and snow clearing with an LTR17. Snow blowing is considered a heavy load, which approximates to 100L diesel/hour, while snow clearing approximates 60L diesel/hours.
 
-        \lipsum[1-1]
+These approximations can be converted into need for electrical storage through the following calculations:
+
+\textbf{Snow Blowing}
+
+CD=Diesel consumption =100 L = 1MWh
+
+EE= Diesel engine efficiency =0.3
+
+EH= Efficiency of Hydraulic rotary snow plough/brush= 0.6
+
+CE=Real energy consumption
+
+EB=Efficiency of battery and electric motor=0.85
+
+ESB=Efficiency of electric rotary snow plough= 0.9
+
+EEB=Efficiency of electric brush= 0.9
+
+EC=Energy consumption per hour
+
+BD=Battery degeneration
+
+CB=Battery capacity
+
+To convert the diesel consumption to energy consumption it is important to account for the efficiency of both the engine and the hydraulic rotary snow plough:
+
+\begin{equation*}
+    P_A = D_C E_E E_H = 1 MWh\cdot 0.3 \cdot 0.6 = 180\;kWh
+\end{equation*}
+
+The efficiency of a battery electric motor in combination with the efficiency of an electric rotary snow plough is then used to calculate the energy demand per hour:
+
+\begin{equation*}
+    E_{C, ES} = \frac{P_A}{E_B E_{SB}} = \frac{180\;kWh}{0.85\cdot 0.9}=235.3 \;kWh
+\end{equation*}
+
+And for a hydraulic rotary snow plough the per hour energy demand:
+
+\begin{equation*}
+    E_{C, HS} = \frac{P_A}{E_B E_{H}} = \frac{180\;kWh}{0.85\cdot 0.6}=353 \;kWh
+\end{equation*}
+
+Due to degeneration, the maximum capacity of the battery after 30 years is estimated to be reduced to 80\% of the maximum capacity when it was installed. This is accounted for by making the needed capacity to be only 80\% of the installed battery capacity:
+
+\begin{equation*}
+    C_{B, ES} = \frac{E_{C,ES}}{B_D} = \frac{235.3\;kWh}{0.8}=295 \;kWh
+\end{equation*}
+
+\begin{equation*}
+    C_{B, HS} = \frac{E_{C,HS}}{B_D} = \frac{335\;kWh}{0.8}=441 \;kWh
+\end{equation*}
+
+\textbf{Snow clearing using track cleaner and brush:}
+
+For snow clearing using track clearer and brush the energy consumption is 60\% of the consumption with snow blowing, which means that the needed capacity of the battery for snow clearing will be 60\% of the needed capacity for snow clearing with a rotary snow plough:
+
+\begin{equation*}
+    C_{B, EB} = E_{C,ES}\cdot 0.6 = 176,5\;kWh
+\end{equation*}
+
+\begin{equation*}
+    C_{B, HB} = E_{C,HS}\cdot 0.6 = 265\;kWh
+\end{equation*}
+
+For these calculations, efficiencies of the different components have been based on numbers which the Norwegian railway directorate have stated in their report from 2019. To account for critical temperatures the efficiency of battery/electric engine has been reduced to 85\%.
+
+In order to estimate the specific consumption (kWh/km), we assume that the work train can maintain an average speed of 40 km/h. Which results in the following values for specific consumption:
+
+\begin{table}[H]
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{|l|l|l|}
+    \hline
+    Type      & Snow blowing                  & Snow clearing                \\ \hline
+    Electric  & 295 kWh/40 km/h=7,375 kWh/km  & 177 kWh/40 km/h=4,425 kWh/km \\ \hline
+    Hydraulic & 441 kWh/40 km/h=11,031 kWh/km & 265 kWh/40 km/h=6,625 kWh/km \\ \hline
+    \end{tabular}%
+    }
+\end{table}
+
+Compared to the values used in the 2022 report from SWECO, these values do not diverge greatly from the estimations of energy consumption for heavy and medium workload.
+
+In …. The Norwegian railroad directorate released another report, “CO2-utslipsreduksjon fra skinnegående anleggsmaskiner”. This report concludes that rail-mounted construction machines with a driving range under 200km, would need an 800kWh battery, depending on the type of battery. The railway between Spikkestad and Skøyen is 35km, making an 800kWh battery sufficient for manning this stretch. While there are several different types of batteries on the market, there are two kinds of batteries that mainly stand out as good candidates for rail-mounted construction machines, Lithium Nickel Manganate coboltoxide with a graphene anode (NMC) and Lithium ferro phosphate, with a lithium titanate anode (LFP/LTO). The NMC-batteries are considered high energy batteries, meaning they have a high gravimetric energy density. For NMCs an 800kWh battery pack would be suitable. The LTO-batteries have a lower gravimetric energy density, but are considered high-power batteries, meaning they have a higher charge and discharge rate. In the case of LTOs the battery capacity could be lower, as it will take less time to charge it once it depletes.
+
+To compare the two types of batteries and their suitability for emergency preparedness, it makes sense to view two batteries of similar weight, see table xxx. In this case the NMC would have a higher maximum capacity, meaning it would remain operational for a longer period per charge, while the LTO would have to charge more often, but for a shorter amount of time. The consideration that needs to be made is whether it is more favorable to have a longer operational time, or a shorter recharge time.
+
+The specifications used for the calculation in this report have been based on two readily available batteries: the Samsung SDI NMC battery and the Toshiba SCiB LTO battery.
+
+\begin{table}[H]
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{|l|l|l|}
+    \hline
+    \textbf{NMC 800 kWh}                                                                                                         & \textbf{LTO 800 kWh}                                                                                                      & \textbf{LTO 600 kWh}                                                                                                \\ \hline
+    \begin{tabular}[c]{@{}l@{}}Cells of 2 kWh (17 kg) needed:\\ 800/2=400\\ Weight:\\ 400*17=6800 kg\\ NMC\end{tabular} & \begin{tabular}[c]{@{}l@{}}Cells of 1,24 kWh (15 kg) needed:\\ 800/1,24=646\\ Weight:\\ 646*15=9690 kg\\ LTO\end{tabular} & \begin{tabular}[c]{@{}l@{}}Cells of 1,24 kWh (15 kg) needed:\\ 600/1,24=484\\ Weight:\\ 484*15=7260 kg\end{tabular} \\ \hline
+    \begin{tabular}[c]{@{}l@{}}Energy density (Wh/kg):\\ 800 000 / 6800 = 117,6\end{tabular}                            & \begin{tabular}[c]{@{}l@{}}Energy density (Wh/kg):\\ 800 000 / 9690 = 82,6\end{tabular}                                   & \begin{tabular}[c]{@{}l@{}}Energy density (Wh/kg):\\ 600 000 / 7260 = 82,6\end{tabular}                             \\ \hline
+    \begin{tabular}[c]{@{}l@{}}Specific weight (kg/kWh):\\ 6800 / 800 = 8,5\end{tabular}                                & \begin{tabular}[c]{@{}l@{}}Specific weight (kg/kWh):\\ 9690 / 800 = 12,1\end{tabular}                                     & \begin{tabular}[c]{@{}l@{}}Specific weight (kg/kWh):\\ 7260 / 600 = 12,1\end{tabular}                               \\ \hline
+    \end{tabular}%
+    }
+\end{table}
+
+In their report, SWECO makes estimates of the future improvements of batteries. A comparison between what is currently available on the market and what SWECO estimated would be available on the market, shows that the improvements of batteries are lower than SWECO estimated. The batteries have both a lower gravimetric energy density as well as a lower volumetric energy density, which is not accounted for in the SWECO report.
+
+“While the SWECO report considers the possibility of converting the LT15 work train from diesel powered to electric powered, this report considers the use of an electric LT15 for snow clearing on a specific railway. As the two reports consider different problems, they might reach different conclusions. However, it is important to note that the estimate in this report is solely based on off-the-shelf technologies, in addition the estimates strive to be conservative in regards of energy density and specific weight, as well as considering two types of battery technology, the high energy NMC and the high power LTO.
 
 \section{Theory}
 
-    \lipsum[1-1]
+\subsection{Batteries}
 
-    \subsection{Batteries}
+There are several different battery technologies available on the market, with different advantages and disadvantages. For the work engine to be able to operate  with high loads in changing conditions with temperatures ranging from -20°C to +50°C, and storage down to -40°C, we will have to look into the different kinds of existing battery technologies and choose a battery that best suits this situation.
 
-        \lipsum[1-1]
+\textbf{Basics}
 
-    \subsection{Charging Solutions}
+Rechargeable batteries, also called secondary batteries, mainly consist of a positive and a negative electrode, called the cathode and anode respectively. The two electrodes are separated by an electrolyte and a separator membrane. When the two sides are connected an oxidation process will occur at the anode, this means that the anode is degraded. In the case of lithium-ion batteries (LIB), lithium atoms degrade to lithium ions, separating one electron from the rest of the atom. The ion is then pulled through the electrolyte to the cathode. This creates a voltage difference between the anode and the cathode. The electrolyte is a material that does not conduct electrons, forcing the electron to move around it, this leads to a current through the connection between the anode and cathode. The voltage of the battery is based on the difference in thermodynamic stability of the lithium atom in the materials on each side of the electrolyte. This process can be reversed by applying a voltage in the opposite direction. By forcing electrons into the anode, while depleting the cathode of electrons, the Lithium ions are forced back to the anode, recharging the battery.
+ 
+While this description explains the basic principles of a battery, the specific properties of a battery is largely dependent on what materials the different components consist of.
 
-        \lipsum[1-1]
+One of the properties that are greatly affected by the materials used in a battery is the range of temperatures where the battery can function without causing severe damage to the battery. In the case of snow clearing at sub-zero to -25°C, choosing the right materials is critical to ensure that the battery can handle the workload without considerable degradation.
+ 
+Another consideration is the dimensioning of the battery. While one battery cell has a specific capacity and voltage, multiple battery cells can have different total voltage and total capacity. Connecting batteries in a series will give a higher combined voltage, whereas connecting them in parallel will increase the total capacity of the battery pack. By connecting several smaller batteries in a combination of series and parallels, it is possible to create battery packs with different voltage and capacity, out of batteries with similar battery chemistries. In addition to being able to tailor the voltage and capacity, smaller batteries also allow for the exchange of only parts of the battery pack if one battery gets damaged, instead of changing one big battery.
 
-\section{Method}
+In this report the size of the battery has not been considered an issue. However, the weight of the battery is. This leads to an important property for this project, the gravimetric energy density, meaning how many units of energy you get per unit of weight, (Wh/kg). A battery with higher gravimetric energy density will be able to store a larger amount of energy with the same amount of weight, or the same amount of energy with less weight than a battery with lower gravimetric energy density. As the train will either have a lower total weight or a higher amount of stored energy, the gravimetric energy density is closely connected to the range of the work train.
+ 
+Power density is defined as the rate at which a battery can be charged or discharged per unit volume. It does not comment on the amount of energy stored, only how fast the battery can be charged or discharged. Ideally a battery should have both high gravimetric energy density, as well as high power density, however, it is often the case that materials with high gravimetric energy density, do not have high power density, and vice versa.
 
-    \lipsum[1-1]
+The final property which is important for this report is the amount of operation cycles.
 
-    \subsection{Modelling}
+While all batteries deteriorate throughout their life cycle, the speed at which they do so depends on the applied battery chemistries. Usually, a battery is said to be at the end of its lifetime when the maximum capacity of the battery is reduced to 80\% of the maximum capacity when it was created. This property can vary from 6 000-20 000+ cycles. This property is important as it influences the lifetime of the battery, although the lifetime will be influenced by other factors as well. Nevertheless, a high number of cycles is ideal as it decreases the cost, and is better for the environment.
 
-        lipsum[1-1]
+\textbf{Batteries at low operating temperature}
 
-\section{Results}
+When describing batteries at low temperature, there might be mentioned lithium to exemplify, but the fundamental physics of the battery would apply for all kinds of batteries. It is simply to be able to precisely describe what happens in a battery, and lithium ion batteries are the most common battery technology today for this application, so it is a good way to explain both general aspects as well as showcase the advantages and limitations of lithium.
 
-    \lipsum[1-1]
+Temperature is basically the average kinetic energy of the particles in a substance. By lowering the temperature, the kinetic energy of the particles decreases. There are three major things that are affected in a battery when it is operated at critically low temperatures:
 
-\section{Discussion}
+\begin{enumerate}
+    \item  Resistance in the electrolyte. How much an atom or particle vibrates or moves is dependent on the temperature. In a gas, we will have almost free movement with high speeds and collisions between molecules. In solids, the particles will oscillate around a rest position. At the theoretical absolute zero temperature (-273,15) we can think that the particles are so stable that there are no vibration. In our case, this means that we will have less movement of ions through the electrolyte  (flow) if the temperature goes down, because the particles move less freely. It can be described as kind of the friction of a fluid. The particles vibrates less, giving less space in between the particles for the ions to travel. This means that we will have more frequent collisions, which creates resistance in the electrolyte. However, these collisions generate heat, which will make the electrolyte heat up and become less viscous, and ions are able to move more freely again. But this is not a recommended way of operating the battery during cold conditions, and it is better to have it at a certain higher temperature to avoid both capacity losses and long term damages.
+    \item The discharge capacity goes down. Because of the increased resistance in the electrolyte, that is already mentioned, decreases the rate of transfer of lithium ions, the activity of the lithium ions in the positive electrode goes down. This results in that the battery are not able to discharge the same amount as it would have in higher temperatures. Someone is hitting the brakes, and it results in a lack of performance.
+    \item Chemical reaction rate. Because of the ions being slowed down at lower temperature, this also means slower chemical reaction rate, as there are less kinetic energy inflicted on the ions from the lower temperature. This can be especially bad during charging, when we apply a higher charge current to force the lithium ions back to the anode. In lithium ion batteries, we often use a graphite anode, which kind of have “tunnels” into the structure, so that several lithium ions can “park” after each other when we charge the battery. But in this process, called intercalation, once we are down to a lower temperature, this does not always function properly, because the slowed chemical reaction rate leads to an accumulation of lithium ions at the surface of the anode, instead of going into the structure/”tunnels”. This causes something called lithium plating, where we have a layer of metallic lithium on the surface of the anode that conflicts with the normal operation of the battery, and which over time can lead to malfunction of the battery %(https://www.upsbatterycenter.com/blog/lithium-plating/). 
+    This same process can also cause dendrites, which is a “tower” or branch growing out of the surface of the electrode. If the dendrite grows far enough so that it is able to touch the other electrode, we will get a short circuit. Luckily, there are several safety barriers to prevent dendrites, as for instance the separator in the electrolyte.
+\end{enumerate}
 
-    \lipsum[1-1]
+\textbf{Customizing battery properties}
 
-Let's cite! Einstein's journal paper \cite{einstein} and Dirac's
-book \cite{dirac} are physics-related items. 
+While most batteries function in a similar way, their specific properties can be customized by making changes to different components. By picking the right electrodes and electrolyte, the batteries specific properties can be customized to be as good a fit for a specific task as possible. For instance, if the manufacturer of an electrolyte mix additives into the electrolyte, it can remain less viscous down to lower temperatures.
+
+In a lithium ion battery, the electrodes are materials that can both contain and not contain lithium. When connected the lithium will travel from the material where it has a less stable position in the structure, to the material where it is more stable. The difference in stability defines the voltage of the battery. A usual material for the anode (The less stable electrode), is graphite, due to a number of reasons. It is structurally stable, relatively cheap to produce, has a low electrochemical reactivity and stores lithium well. Another option is lithium titanate (LTO). The LTO anodes have some advantages over graphite. One advantage is a higher charge rate in addition, it remains operational down to -30°C.
+
+\textbf{Geometry of the cell}
+
+The geometry of the cell is another factor which can affect the properties of the battery in several ways. The most common battery shape is cylindrical, which, from a manufacturing point of view, is a mature technology. However, in cold weather, the cylindrical battery cells will experience a large temperature gradient as the exterior is much more exposed to the elements than the core. This temperature gradient can harm the battery. Another issue with cylindrical cells is that they lead to inefficient packing. Due to their circular cross section, a large portion of a battery module would be unused space as the batteries geometry simply cannot be packed close enough. This would again have implications for cold weather, as all the individual battery cells would be exposed to the cold air. In addition, cylindrical batteries mean a lower volumetric energy density, which requires larger casings, which results in a lower gravimetric energy density as well.
+
+Prismatic battery cells have a clear advantage when it comes to stacking. Their flat surfaces and 90o corners mean that they can be packed densely, giving them a higher volumetric and gravimetric energy density. In addition, a larger amount of the battery cells is in towards the middle of module, where it is protected from cold temperatures. The heating of the battery would also be more uniform on the same layer, this makes the layer more stable and prevents the formation of dendrites. The main issues with prismatic cells, are that they are complicated to produce, which increases their cost, in addition, it is also more difficult to cool down the battery during use due to the tight stacking.
+
+While there are other types of batteries, such as pouch cells, the suppliers of the systems relevant for this report use either cylindrical or prismatic cells, which is the reason why other geometries are not considered further here.
+
+\subsection{Battery Technologies}
+
+The availability and maturity of the technology will be among the main considerations when evaluating the different battery technologies. To make sure that the pilot project of electrification of the LT 15 can begin quickly, the focus of this report has been directed towards off the shelf products that are currently on the market. The writer would like to note that while there are promising technologies that might be available in the future, these will need testing as well as maturing when it comes to manufacturing before they can be seen as real candidates for commercial projects.
+
+To narrow things down, it is important to establish that according to current trends within battery technologies, there is no real contender to the vast variety of lithium-ion batteries. Batteries based on lithium-ion exchange have the best capacity, lowest price and weight, as well as longest lifetime. Onwards the consideration will be what type of lithium-ion battery will meet the requirements for snow clearing.
+
+
+\begin{itemize}
+
+    \item \textbf{LMO (Lithium Manganese oxide):} In 1975 the Sanyo company commercialized LMO as the first lithium-ion battery to be available on the market. This battery is still being produced, although it has matured since then. The modern version uses a three-dimensional spinel structure which allows for better lithium-ion diffusion. It has a medium energy density and low power density, similar to LFP. In addition it is cheap to produce, has a high thermal stability, although cell temperatures above 60°C harms the battery, leading to severe capacity drop caused by surface dissolution of manganese in the electrolyte\cite{tran_1}.
+
+\item \textbf{LFP (lithium ferro-phosphate):} LFPs are currently the most common lithium-ion battery. It is used in EVs, such as Tesla, as well as home energy storage. LFP batteries has got a relatively low energy density and power density compared to other Lithium-ion batteries, however, they are cheaper to produce and safer to operate, in addition, they have a long cycle life. This makes them excellent batteries and explains why they currently make up a large share of the market. This technology poses some challenges though, operation at low temperatures, being the main one. The number of cycles the LFP batteries varies between 2.000-10.000 cycles depending on the manufacturer, and depending on the conditions the battery operates in. The battery can be discharged normally between -5°C and 70°C, and charged normally between 0°C and 55°C. While they operate well at high temperatures, they are expected to have 60-70\% capacity at low temperatures. In addition their recommended charge rate is about 0.8-1C\cite{tran_1}.
+
+
+\textbf{LTO(Lithium titanate oxide):} While graphite is the most common anode material used in lithium-ion batteries, the use of LTO as an anode gives the battery certain properties, which is why it is the anode material which gives its name to this type of battery. This line of batteries is usually fitted with an LFP cathode. LTO batteries have very high power density, meaning they are able to both charge and discharge at short amounts of time. Some manufacturers even claim that their batteries can be charged to 90\% in only 10 minutes. In addition, LTOs have a long cycle life between 10.000-20.000 depending on the manufacturer as well as operational conditions, as well as charge and discharge rates. Most manufacturers claim a charge rate of 3C.
+
+The LTO maintains some of the qualities of the LFP batteries, having a wide range of operating temperatures. However, it can be operated downward to -30°C without taking damage. This number varies between manufacturers.
+
+The drawbacks of LTOs is its relatively lower energy density, which requires heavier batteries for the same amount of kWh, this can possibly be compensated for by smaller batteries in combination with fast charging. LTO has been used in several truck, bus, boat and rail sector, and has for instance had great success in Japan when used in the JR central ‘s N700S Shinkansen to operate at low speeds when the overhead lines are not available or out of service and Siemens commuter train in Austria \cite{scib} \cite{mwabeleko}.
+
+
+\item \textbf{NMC (lithium nickel manganese cobalt oxide):} NMC batteries has the highest volumetric and gravimetric energy density. It is currently used in EVs (Audi E-tron), battery storage and portable devices. The charging rate is 0.8-1C which is similar to LFP, and an operating temperature of -20°C to 55°C for discharge, and 0°C to 55°C for charging, with some variation between manufacturers. NMC has another advantage over LFP, as it has a 10x higher internal impedance which results in a larger heat production during discharge. When operating in cold climates, this property will contribute to keeping the battery warm, and well within the operating temperature with minimal need for heating. Naturally, a cooling mechanism could be needed when operating at room temperature and higher. While there are safety requirements for all lithium-ion batteries, LFP batteries are considered more stable and safer than NMC as the heat build-up is lower. In addition, NMC has a lower thermal runaway temperature than LFP, making them less safe during constant operation. Another draw-back of the NMC is its relatively short cycle life of only 1.000 to 6.000 charge cycles \cite{wevj6030572} \cite{batteries7030051}.
+%(https://www.mdpi.com/2032-6653/6/3/572 safety)
+%(https://www.mdpi.com/2313-0105/7/3/51)
+
+
+\item \textbf{NCA (Lithium Nickel Cobalt Aluminium Oxide):} NCA batteries share a lot of the benefits of the NMC, but replaces the toxic manganese with aluminium. This also increases both its energy density and its cycle life. However, NCA poses the same safety concerns as NMC. It has been used in EVs in combination with special safety monitoring devices. Due to safety considerations, the NCA will not be considered for this application.
+%(https://www.mdpi.com/2032-6653/6/3/572 safety)
+%(https://www.mdpi.com/2313-0105/7/3/51)
+
+\end{itemize}
+
+\subsubsection*{Other battery technologies: }
+
+There are also other types of technologies that exist of other elements than lithium, but the question arises about how mature the technologies are, safety concerns and if the technology even is off the shelf or still in early trials and testing. Also, some of these technologies may not have the right properties for this project.
+
+\begin{itemize}
+    \item \textbf{Lead Acid:} Lead acid batteries are useful for certain functions, such as starting an internal combustion engine(ICE). It does not have neither the power output nor the energy density of a lithium-ion battery, making them unsuited for the purpose of this task. In addition, it performs poorly in cold weather, and can lose up to 50\% of its charge below 0°C.
+    \item \textbf{Sodium-ion batteries:} Due to the use of a larger ion, these batteries need to be larger and heavier than lithium-ion batteries, making them more suited for stationary power storage.
+    \item \textbf{Zinc-air batteries} are not commercially available
+    \item \textbf{Solid state batteries} are not commercially available
+    \item \textbf{Solid state batteries} are not commercially available
+    \item \textbf{Nickel-metal hydride} are not commercially available
+    \item \textbf{Li-S (Lithium sulfur):} higher energy density/specific power than normal lithium-ion batteries, not developed for commercial use. It has a large range of
+    operating temperatures. Used in the army for cold climate uses.
+    \item \textbf{LMFP (Lithium manganese iron phosphate): } \cite{pandaily}
+    %https://pandaily.com/chinese-firms-test-lithium-manganese-iron-phosphate-batteries/
+    
+    
+\end{itemize}
+ 
+
+\subsection*{Essential auxiliary solutions}
+
+For the battery to be performing optimally, it is important to control the environment in which it operates. By encasing the battery module, it is possible to create such an environment. If the casing is well insulated, the temperature in the casing can be regulated to suit the battery by fitting it with both cooling and heating, this can be provided by a heat pump, such as those used by Nordic booster. A benefit of using a heat pump is that the heat pump can be structured as a centralized system. In the case where it is necessary with several battery modules in separate casings, one heat pump can serve all cases, which take up less space. An important reason for temperature control is the fact that there is currently no battery technology available which will not take damage from operating at temperatures below -30°C. This makes temperature control essential for operations in winter conditions.
+
+The casing also provides a clean and dry environment for the batteries, which is also ideal.
+
+The batteries should also be equipped with a battery management system (BMS), for optimal charging and discharging. The BMS will monitor the batteries and make sure they are in the right temperature range before charging them. This will increase the cycle life of the battery.
+
+\subsection*{Solution and conclusion battery technology}
+
+To conclude, NMC and LTO batteries will be further inspected to see if they are suitable solutions to the problem of this report. They both fulfill the criteria of being off the shelf products, and specific models from reputable battery manufacturers will be used as representatives for the battery system to ensure accurate data and numbers. NMC and LTO have been chosen because of their different properties, respectively that NMC has high energy density and a quite mature technology, and LTO with high power density, long cycle life and safety. LFP could also have been looked more into, but because its properties are quite similar to LTO, but lacking the high power density, it will not be studied alone in this report. Regarding price, NMC has an advantage, both because it is more mature, and also because it has a larger market share, but this could be changing in the coming years as the technologies are improving in manufacturing and performance.
+ 
+The specific models chosen are an NMC battery from Samsung SDI and an LTO battery from Toshiba (listed below in figures and summed up in the table). They both use prismatic cells, and are equipped with BMS (battery management system). In this report, heating and cooling of the batteries will not be possible to go into any further, as it will require more information on the placement of the battery packs, which is beyond the scope of this project. But it is recommended that heating, isolation and insulation are done to ensure the best possible operating conditions.
+ 
+Compared to the estimations in the SWECO report, which use a general number for energy density and specific weight of lithium ion batteries and how it is expected to improve in the future to calculate battery size, the gravimetric energy density and specific weight in this report are more moderate. By using modules that are on the market today, and using the numbers from their datasheets this report tries to not overestimate how good the technology is as of today.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics*[width=1\textwidth]{img/image13.png}
+    \caption{Screenshot of some of the specifications of the LTO battery module considered in this report. The model considered is FM01202CCB02A (all the way to the right) \cite{2p12s}. %https://www.global.toshiba/ww/products-solutions/battery/scib/product/module/2p12s.html
+    }
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics*[width=1\textwidth]{img/image6.png}
+    \caption{Screenshot of some of the specifications of the NMC battery module considered in this report. The model considered is M2967 (all the way to the right) \cite{samsung}
+    %http://samsungsdi.com/upload/ess_brochure/SamsungSDI_ESS_EN.pdf
+    }
+\end{figure}
+
+\begin{table}[H]
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{|l|l|l|}
+    \hline
+    \textbf{}                                    & LTO         & NMC                                                                         \\ \hline
+    Operating temperature (+storage temperature) & -30C-45C    & \begin{tabular}[c]{@{}l@{}}-20C-55C discharge,\\ 0C-55C charge\end{tabular} \\ \hline
+    kWh pr module                                & 1,2         & 2                                                                           \\ \hline
+    Kg weight pr module                          & 15          & 17                                                                          \\ \hline
+    Gravimetric energy density          & 82,6 Wh/kg  & 117,6 Wh/kg                                                                 \\ \hline
+    Specific weight                     & 12,1 kg/kWh & 8,5 kg/kWh                                                                  \\ \hline
+    \end{tabular}%
+    }
+\end{table}
+
+\cite{max} \cite{vanzwol} \cite{toi}
+
+
+%https://www.maxworldpower.com/lithium-battery-lfp-vs-nmc/
+
+%https://www.datacenterdynamics.com/en/opinions/how-does-temperature-affect-your-choice-of-lithium-ups-battery/
+
+%https://www.toi.no/getfile.php?mmfileid=52027
+
+\subsection{Charging solutions}
+
+\subsubsection*{Overhead Lines}
+
+The traditional electric trains get their electricity continuously from overhead lines. The overhead lines in Norway have a frequency of 16.67Hz and a voltage of 15kV \cite{bn_1}.
+%[https://www.banenor.no/elektrifisering_kjorestrom]. 
+Since the frequency of the Norwegian grid is 50Hz, the electrical energy travels through a converter to reduce the frequency to 16.7Hz. The Norwegian railroad also has some power plants of their own that directly supply the overhead lines with a frequency of 16,7Hz \cite{bn_2}. 
+%[https://www.banenor.no/contentassets/b9ade1303f42474eabf16099c7dd2182/slik-fungerer-jernbanen-versjon-191213.pdf] 
+
+Simplified, the current travels from a substation to the overhead lines, via a pantograph, and to the motor. After the motor has consumed the energy it needs, the current travels further through the tracks or a conductor, and back to the traction substation in a closed circuit \cite{bn_3}.%[https://www.banenor.no/Nyheter/Nyhetsarkiv/2023/hva-er-returstrom/]. 
+The substation is a generic term of a converter, a transformer station and/or a power plant, and its purpose is to increase the voltage\cite{bn_2}. %[https://www.banenor.no/contentassets/b9ade1303f42474eabf16099c7dd2182/slik-fungerer-jernbanen-versjon-191213.pdf]. 
+The motor converts the electrical energy into mechanical energy, so the voltage will decrease traveling through the motor. The transformer and power plants increases the voltage from 0V to 16.5kV\cite{bn_2}. %[https://www.banenor.no/contentassets/b9ade1303f42474eabf16099c7dd2182/slik-fungerer-jernbanen-versjon-191213.pdf]. 
+The voltage is 1.5kV higher than the nominal voltage of 15kV for the overhead lines to account for losses\cite{bn_2}. %[https://www.banenor.no/contentassets/b9ade1303f42474eabf16099c7dd2182/slik-fungerer-jernbanen-versjon-191213.pdf].
+
+The batteries can be charged in multiple ways. The best charging solution mainly depends on the existing infrastructure, the driving pattern of the work train and the battery charging time. The battery can be charged from the overhead lines or directly from the grid.
+
+\subsubsection*{AC and DC Charging}
+
+Another consideration is whether the battery should be charged with ambient current (AC) or direct current (DC). More precisely, the battery has to be charged with DC. The question is whether it should come directly from a DC source, or from an AC source, via a rectifier and finally to the battery.
+
+DC charging is the fastest option because the current is rectified before entering the vehicle. This is a huge advantage for periods of heavy snowfall, where the machine should be in a state of emergency preparedness for snow clearing most of the time. Since the current does not need to be rectified after entering the machine, a rectifier will not be needed on board. This enables more room for increasing the battery capacity without increasing the total weight of the machine.
+
+If an AC charging solution is used, the rectifier has to be onboard on the machine to convert the AC to DC \cite{sweco}. A transformer is also needed onboard, since the 15kV voltage in the overhead lines is too high for the work train \cite{sweco}. Additionally, this transformer needs a cooling mechanism \cite{sweco}. This results in a heavier system with less leeway for battery capacity and payload. The charging capacity is also lower for AC than DC charging, which means that the charging takes longer.
+
+\subsubsection*{Overhead Line charging}
+
+If the train is going to be charged by the overhead lines, the work train will need a transformer and rectifier onboard because the overhead lines are AC. According to Sweco, this system will have a total weight of approximately seven tons (battery excluded) \cite{sweco}.
+
+There are two possibilities for charging with overhead lines: stationary and dynamic. The stationary approach will have less need for durability and will have a rectifier with lower weight (approximately 500kg less) \cite{sweco}. However, the dynamic approach will give more flexibility by allowing charging at any time, also when driving. The stationary and dynamic charging solution will have a maximum capacity of 600kW and 1200kW respectively.
+
+Since the railroad between Skøyen and Spikkestad is equipped with an overhead line, this charging solution has no requirements in regards to new infrastructure. The work train will also have an unlimited range, because the lines will deliver electricity constantly. The main problem with this charging approach is that it is dependent on the overhead lines. If these lines are out of service, the battery will not be able to charge.
+
+\subsubsection*{Charging without overhead lines}
+
+\subsubsection*{Power Supply Box charging (AC)}
+
+Power supply boxes are boxes placed along the railway tracks, used for pre-heating passenger- and freight trains when overhead lines are unavailable or unsuitable \cite{trv}. %[https://trv.banenor.no/wiki/Lavspenning_og_22_kV/Prosjektering/Togvarme]. 
+The only Power supply box on the stretch Skøyen-Spikkestad is located at Høvik and has a 1-phase voltage of 1000V \cite{togvarme}.%[https://www.banenor.no/elkraft/togvarme/index.htm]. 
+The post has a current of 300A, a 50Hz frequency and a maximum charging capacity of 600kW \cite{togvarme}\cite{sweco}.%[https://www.banenor.no/elkraft/togvarme/index.htm], [sweco report].
+
+Power supply boxes deliver AC, which means that the work train has to carry the additional weight of both a transformer and a rectifier. Since the voltage from the Power supply box is smaller than that of the overhead lines, the transformer can be smaller than for overhead line charging\cite{sweco}. The frequency of 50Hz makes it possible to use standardized rectifiers and battery chargers designed for the normal grid, and the need for a frequency converter is eliminated. This solution gives an additional weight of approximately 2 tons, excluding battery weight\cite{sweco}.
+
+Power supply boxes have high voltage lines above the track. Work trains are equipped with ladders to their roof. This means that it is possible to climb up to the high voltage conductors, which creates a safety issue. The biggest problem with this solution is that the power supply box is not always available, as other trains use them while in storage. Since the power supply box at Høvik is frequently used, this could be a problem.
+
+\subsubsection*{Type 2 Charging (AC)}
+
+The type 2 charger is being used in electric vehicles, so it is already commercialized. This means that there is no need for inventing new technology, just customize it for the work train. The charger is cheap and the charging time is much lower than that of the electrical outlet \cite{normallading} %[https://elbil.no/lade/lade-elbilen-pa-farta/normallading/]. 
+This charger has a maximum capacity of 43kW with 400V three-phase or 15kW with 230V one-phase\cite{sweco}. The estimated weight addition with this solution is approximately 2 tons, battery excluded\cite{sweco}.
+
+\subsubsection*{CCS2 Charging (DC)}
+
+CCS2 (combined charging system) is, similar to the type 2 chargers, commercialized for electric vehicles. The biggest differences are that the CCS2 has a higher capacity and uses DC. This results in a slightly lower weight of around 2 tons and gives the lowest weight addition of the solutions without overhead lines\cite{sweco}. The capacity of this charger is 200kW, which is over 13 times as high as for the type 2 charger \cite{sweco}. The maximum capacity can also be increased to 500kW by using multiple plugs. By choosing a CCS2 inlet on the vehicle, it is possible to use type 2 charging, as these solutions use the same contact\cite{sweco}. This increases the flexibility.
+
+\subsubsection*{Grid imbalance and Voltage imbalance}
+
+Fast charging is a huge advantage for emergency preparedness, but it can have some implications on the grid. The battery will consume huge amounts of energy in a small amount of time. This makes it harder to match supply and demand in the grid, and the frequency may fluctuate instead of being at a constant 50Hz (or 16.67Hz in overhead lines), causing a grid imbalance. If the battery consumes a lot of energy in a short time period, it may have a negative effect on the security of supply \cite{rme}.
+%[https://publikasjoner.nve.no/rme_rapport/2021/rme_rapport2021_03.pdf]. 
+By charging with one of the phases, it may also result in imbalances in the three-phase grid, as they have different loads causing voltage imbalance \cite{distro}.
+%[https://ietresearch.onlinelibrary.wiley.com/doi/full/10.1049/iet-gtd.2017.0631?sid=vendor%3Adatabase]. 
+Imbalances in the grid may lead to more loss, a shorter lifetime or destruction of components \cite{rme}.
+%[https://publikasjoner.nve.no/rme_rapport/2021/rme_rapport2021_03.pdf]. 
+It is possible to solve this problem for the work train battery, but it will result in higher costs.
+
+\subsubsection*{Balance Solution 1: Battery Exchange}
+
+One of the methods of minimizing the energy extracted from the grid per time period is battery exchange. This solution involves exchanging the whole battery with a charged one when there is not enough energy left on the work train battery. This enables slow charging for the battery that is not being used, which will have less impact on the grid balance and voltage imbalance. This solution has several other advantages. The most important one for readily available work trains is the charging time.
+
+One of the main challenges with battery-electric trains is the charging time, which generally is much higher than for diesel trains. This problem is eliminated for a solution involving battery exchange. A discharged battery can be exchanged by a fully charged one to eliminate the charging time. Another advantage is that the battery can easily be changed after its lifetime. It is also easier to charge the batteries when the electricity price is low, and there is less need for fast charging. Since the batteries can charge slower, their lifetime will also be higher. However, this approach requires a strong crane or an additional truck for loading and unloading the battery. There are also few standardized solutions, which means that it will require more research and development than the other solutions mentioned above.
+
+With this method it is possible to have one permanently installed battery and add battery modules based on the needed range that day. This way, the weight can be reduced on days with smaller range requirements to save energy.
+
+A possibility is to mount a battery wagon to the work train. This would not require a crane, but will have more requirements to the infrastructure because it needs a sidetrack for storage. This wagon will have some complications when it comes to winter operation because it needs an auxiliary driver to navigate when the train is backing up, and the crane can not be used in the tracks.
+
+A battery exchange charging solution allows for flexibility, emergency preparedness and a lower operational cost. However, it requires more batteries than the solutions mentioned above and the capital cost will therefore be higher.
+
+\subsubsection*{Balance Solution 2: Battery To Battery Charging}
+
+B2B (battery to battery)-charging is a charging method where an external battery is charged from the grid and then used for charging the work train battery. The external battery can charge slowly, while the internal battery can fast charge from the external battery to minimize imbalance in the grid. By charging the external battery slowly, its lifetime will also be longer.
+
+The operational cost could be lower for this charging method because the external battery can be charged when the electricity prices are low. The internal battery can be charged anytime, so the charging solution could be flexible, depending on the external battery placement. However, the investment cost will be high, as the B2B solution both requires a charging station and an expensive external battery. Because of the high variation in electricity prices, this could still be a good solution.
+
+Even though the operational costs may decrease, the high investment cost makes this solution very expensive. It will not be the most cost-effective solution, but an external battery may be a necessity to avoid unbalance in the grid if the machine is charged through one phase.
+
+It is also possible to combine the battery exchange and B2B solution, and charge or change the battery according to the need. If there is a lot of snow which needs to be removed right away, the internal battery could be exchanged with the external battery to make the process as quick as possible. If the snow removal is less urgent and the infrastructure does not allow for battery exchange, the work train could stop and charge the internal battery with the external one. This requires an external battery that is designed for fitting in the work train, and its dimensions and energy contain is therefore limited. The scope of this report is limited to off-the-shelf solutions that are easily implemented. Therefore, this combined solution has not been considered for our recommendations, but could be evaluated further in a later report.
+
+\subsubsection*{Choice of Charging Solution}
+
+The characteristics that are considered the most important while deciding which charging solutions to recommend is the machine’s ability to be readily available and work in any conditions. This eliminates the charging solutions with overhead lines, as it requires that the lines are working. By eliminating the overhead line charging solution, it will also be easier to generalize the solution for unelectrified stretches in the future. The power supply box charging solution is also eliminated, mainly because it is not always available. However, this could be a good solution for other railroads where the power supply is less busy.
+
+It is preferable that the solution does not require investments in infrastructure, nor in research and development, as it greatly reduces the cost. This excludes the battery exchange solution. The battery-to-battery solution is also discarded, because of its high price. It may however be necessary to have an additional battery to achieve grid balance, but that is not considered in this report.
+
+The remaining charging solutions are type 2 and CCS2 charging. These charging methods are quite similar, but the CCS2 solution has a higher capacity and lower weight. This report will therefore focus on the CCS2 solution.
+
+\subsubsection*{Placement of the Charging stations}
+
+The railroad between Skøyen and Spikkestad has 17 different stations. This results in many possibilities when it comes to geographical placement of the charging station or stations.
+
+\textbf{Asker}
+
+The operating machine is now located at Asker, which makes this a natural place to have a charging station. This opens for more flexible charging, and it will be easier to charge when the electricity prices are low. Using the rail yard for charging can also open for a longer charging time when the machine is not used, and results in a simpler logistics system.
+
+Asker station is almost in the middle of the stretch. This means that the work train does not have to make the whole round trip (70km) before charging. The longest route with one charging point would be 40km. This solution is relatively cheap because there is only one charging station needed, but will only be a valid solution if the battery range allows for it.
+
+Placing the charging station at Asker may also be a good idea considering possible future battery-electric trains on this rail. Since both the Spikkestad line and the Drammen line stop at Asker station, it could be an advantage to have a charging station here. 
+
+
+\textbf{Skøyen}
+
+Skøyen is a busy and central station. By placing a charging station here, it could be easier to electrify work trains with responsibility for different tracks in the future. For this to be a viable option for this railroad, the reach of the work train needs to be big enough to handle the whole round trip Skøyen-Spikkestad-Skøyen (70km).
+
+\textbf{Spikkestad}
+
+There is only one train using Spikkestad station, and only one track, so it is far from as busy as Skøyen station. This makes the logistics system easier, but the charging station would not be able to serve other trains in the future. Both the Skøyen and the Spikkestad solution give a lower flexibility than the Asker solution, because they require almost twice the range. These solutions will, however, be cheaper.
+
+\textbf{Skøyen and Spikkestad}
+
+A charging station at Skøyen could be a good idea considering future electrification, and one at Spikkestad would have less impact on other battery trains. Installing a station at each terminus is more expensive. However, this solution has bigger range flexibility than Skøyen or Spikkestad, because it allows for charging twice as often. This could be an appropriate solution if the battery capacity makes it unable to travel the whole round trip.
+
+\textbf{Asker, Skøyen and Spikkestad}
+
+Having one charging station at each terminus and one in the middle, will give a huge flexibility. There will also be lower requirements for battery capacity, since the machine only has to travel half the trip before charging. If the battery capacity does not allow for any of the solutions above, this would be an appropriate solution. 
+
+\subsubsection*{Charging Station Placement Recommendation}
+
+If the reach of the train allows for it, the charging station should be placed at Asker. This is the cheapest solution, and gives an adequate flexibility as long as the battery capacity is high enough to handle 40km. If the reach of the work train is too short for this solution, the charging stations should be located at Spikkestad, Asker and Skøyen.
+
+\section{Modelling}
+
+\subsection{Introduction}
+
+As detailed previously, the group were given a specific machine running on a specific route as the basis for our assignment; an LT15 locomotive, operating on the Skøyen - Spikkestad stretch. For the modelling section of the task, we abstracted the real world case to a more generic, and simplified model, with a specific frame of reference. This chapter will detail the basis for our model, our modelling approach, the technical details of the implementation, and present and discuss the results from our model. Finally, a discussion of the models shortcomings, and potential improvements and future iterations will be had.
+
+\subsection{Basis}
+
+To begin the modelling, we started with a specific scenario; a yellow maintenance locomotive moving along a stretch, doing work. The route would have varying altitudes, temperatures, and charging possibilities, and the amount of work needed to be done would vary. An illustration of this scenario can be seen in Figure \_ below.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics*[width=1\textwidth]{img/image11.jpg}
+    \caption{Illustration of the initial Scenario.}
+\end{figure}
+
+This scenario represents the real situation for which we wish to create a model. Albeit already a simplified representation of the real world, it is still a fairly complex system. The machine moves both along a stretch, an altitude, and through time, all the while doing various amounts of work, with various charging capabilities available. We thence decided to model the system from the machine’s perspective, as seen in Figure \_ 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics*[width=1\textwidth]{img/image5.jpg}
+    \caption{Machine view of the system.}
+\end{figure}
+
+We see the system as energy entering the machine (charging), being stored in it (in a battery), before exiting the machine (doing work). These processes are also dependent on the surrounding environment. This abstraction makes it time our operating dimension, meaning we view the energy over time. Some of the complexities of the actual scenario is naturally lost here, which will be discussed further in [SUB-CHAPTER].
+
+Another benefit of this approach is that we can implement some slight object-orienting in the code for our model. The machine, battery, and environment can all be saved as “objects” with certain parameters and functionalities. This greatly improves the flexibility of our system, where you can run the model with different combinations of objects. Although we are only looking at a specific scenario, this approach will be useful as it enables comparing our results for various battery technologies.
+
+\subsection{Implementation}
+
+The system involves the outside temperature affecting the consumption of energy. Lower temperatures results in lower battery capacities, for all types of batteries. To alleviate this, climate controlled batteries would have to be utilised, where -- by way of insulation and heating -- the battery cells are kept at a usable temperature. All of this is highly complex, so for our models purposes we simplified this by having a temperature coefficient. For instance, at -20°C we estimate the batteries to be at about 50\% capacity. To model this in our code, we make the consumption be twice as much at said temperature. Some of the values used as our coefficients can be seen below, in Table X:
+
+\begin{table}[H]
+    \resizebox{0.75\textwidth}{!}{%
+    \begin{tabular}{|l|l|l|}
+    \hline
+    Temperature Range          & Battery Efficiency & Coefficient \\ \hline
+    -05°C  \textless T $\leq$ -10°C & $\sim$90           & 1.25        \\ \hline
+    -15°C  \textless T $\leq$ -25°C & $\sim$25 \%        & 1.50        \\ \hline
+    -25°C  \textless T $\leq$ -35°C & $\sim$50 \%        & 2.00        \\ \hline
+    -35°C  \textless T         & $\sim$80 \%        & 4.00        \\ \hline
+    \end{tabular}%
+    }
+    \end{table}
+
+In the code, this essentially makes the consumption twice as high as it would be in normal conditions, when the temperatures are between -25° and -35°C.
+
+
+\subsection{Technical details}
+
+The model was coded in Python, using NumPy and SciPy for mathematical and scientific functions, as well as Matplotlib for plotting the system. Here we will go through some specific details about our implementation, how it was developed, how it works, and discuss why certain choices were made. Some snippets of specific lines of code will be included, however the full, commented code can be found in %[APPENDIX_].
+
+Python was selected as it is widely used in scientific coding, and for its simplicity and flexibility. Although we wished to create ‘Objects’' for certain parts of the system, we still opted not to use a more object-oriented language such as Java or C, as the general flexibility of Python will speed up implementation quite a bit. 
+
+In the code, we first declare our plotting parameters, defining the various areas to be plotted, and what ratio the view should have. Next, our objects are defined as classes with their relevant attributes as parameters. The various actions involved in the system, like charging, and discharging are then declared as functions, taking an input, and returning an output. Some helper-functions are defined in this section as well. Our main function “simulate(...)” can also be found here. Finally, the various scenarios we wish to simulate are also defined as functions.
+
+The code is structured in this manner to have certain flexibility when making changes to it. For instance, if we wished to make a more robust, accurate charging function, changes could be made to the charge(...) function without having to rewrite the entire system. Although it is not strictly necessary to develop in such a way for a simple project like this, it is considered good practice to make any system simple, yet flexible.
+
+\subsubsection*{Notes on the Development}
+
+To develop this tool, OpenAI’s Chat-GPT[REFERENCE] tool was used. Chat-GPT is a chatbot application, built on a Large Language Model (LLM) neural network, where the user can prompt the bot with a problem or a question, and the bot will try its best to reply. For coding, Chat-GPT is specifically quite well-versed in Python, and could therefore be effectively used for this project. As this type of program is quite new, it is vital to both acknowledge it whenever it is used, and to explain a bit about its role in the development. There are many problems arising from these types of programs, such as plagiarization and cheating. Still, For software development specifically, it can greatly speed up development processes; troubleshooting and documentation, and can turn out to be a very helpful tool in a developers toolkit -- if used correctly.
+
+In its current state Chat-GPT is not perfect, and as such much of the code it generated would have to be altered greatly before it could be used. Errors, called “hallucinations”, can and do occur, especially in the more primitive GPT 3.5 LLM. The bot essentially scours tonnes of data, and tries to generate a response that is deemed to statistically fit the prompt. This code is not run, however, and can result in errors when implemented into a system. One neat trick of the tool however, is then to copy the error message into the conversation with the bot, and it will attempt to correct it.
+
+\subsection{Model Results}
+
+The first scenario we’ll look at is comparing Diesel to an LTO 600 kWh battery. To make this scenario, we first must estimate an equivalency between combustion fuel and electric energy. Estimations in [NULLFIB DELRAPPORT 2: BATTERITOG VEDLEGG C: ARBEIDSMASKINER] finds that 12548 L diesel roughly equates to a battery with a size of 125.5 MWh. This is based on a simple model where 1L diesel equates to about 10 kWh. In reality though, 1L diesel contains about 8.9 kWh. Additionally, combustion engines are much less efficient than electric -- about 30\%, compared to the electric at ~95\%. With this, using the capacity of 12500 L diesel, we can calculate the equivalent battery thusly:
+
+\begin{equation*}
+    12500\cdot8.9\;kWh\cdot0.3)33375 kWh
+\end{equation*}
+
+So, we can equate a machine filled with 12500 L of diesel to have a battery of size 33375 kWh. If we compare this with a 600 kWh LTO battery, consuming 300 kWh/h, for 10 hours, we get the results seen in Figure [REF]
+
+\begin{figure}[H]
+    \centering
+    \includegraphics*[width=1\textwidth]{img/image8.png}
+    \caption{Model: Diesel versus Battery}
+\end{figure}
+
+Here, we see how different these two storage mediums operate, and we see that the energy scale is significantly different for the two technologies. The batteries need to be recharged 7 times, to be able to operate at the simulated ten hours, whereas the diesel could go on for hours without needing a refill. The diesel-model here is particularly inaccurate, however we still wished to include this before the battery comparisons, so that the fundamental differences between fuel and batteries is immediately understood. Performing a one to one comparison between fuel and batteries is not the goal of this, rather we wish to look at how the selected batterychemistries and scales stack up on this particular stretch.
+
+For our comparison, we specifically looked at an NMC battery with a capacity of 800 kWh, and an LTO at 600 kWh. Our first model can be seen in Figure [REF]
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics*[width=1\textwidth]{img/image7.png}
+    \caption{Model: Various batteries and consumptions}
+\end{figure}
+
+We see the two batteries modelled with two different consumptions; 100 kWh/h and 300 kWh/h, running for 180 minutes. The blue and cyan lines are for the machine running NMC, whereas the red and orange lines are for the LTO. Both batteries are estimated to have a C-rate of 3.0, which allow the batteries to recharge to 90\% capacity in 20 minutes. We see that for a moderate consumption of 100 kWh/h, NMC-800 can operate for the full 180 minutes, whereas the LTO-600 almost makes it, reaching 5\% capacity at 175 minutes.
+
+For a high consumption of 300 kWh/h, both batteries need recharging here. The NMC-800 recharges once, after ~ 78 minutes of work, and the LTO-600 recharge twice, after ~60 minutes of work. Realistically, the consumption would vary much more over time, and the graphs for each battery model would lie somewhere between the two projections.
+
+We next wished to model how the temperature affects a battery, specifically the LTO-600, and the results can be seen in Figure [REF]
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics*[width=1\textwidth]{img/image12.png}
+    \caption{Model: Temperature affecting depletion}
+\end{figure}
+
+We see two consumptions of 300 kWh/h, modelled for two different temperature profiles. The dark blue is hovering around -10°C, whereas the light blue temperature decreases to -40°C. We note that the the machine runs out at a steady pace for the regular temperature, whereas it gradually depletes quicker the colder it gets. This illustrates how our model handles how batteries perform at lower capacities when in lower temperatures.
+
+We also wished to model for different C-rates, as seen in Figure [REF] below:
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics*[width=1\textwidth]{img/image9.png}
+    \caption{Model: Different C-rates}
+\end{figure}
+
+Here is illustrated how a tripled charge rate results in much more work being done during the same amount of time. This is especially relevant in regards to preparedness, as less time charging equates to more time doing actual work.
+
+Our final scenario simulates snow blowing and snow clearing for both electric and hydraulic machinery, and can be seen in Figure [REF].
+
+\begin{figure}[H]
+    \centering
+    \includegraphics*[width=1\textwidth]{img/image10.png}
+    \caption{Model: Hydraulic versus Electronic machinery}
+\end{figure}
+
+The blue lines are the electric systems, wheres the red lines are the hydraulic machines. We see that using electric systems, we fairly drastically increase the operational time with the specific battery; about 20 minutes more for snow clearing, and 35 minutes more for snow blowing. 
+
+
+\subsubsection*{Discussion of the Model}
+
+From this model, we can clearly see both the possibilities, and the limitations of retooling the working machines to work with batteries as an energy source. When comparing the system with a diesel driven machine, it is immediately obvious that the scenario will be very different when using batteries; the operational time scales are much smaller for batteries as compared to diesel, and the inherent volumetric differences between the two energy storage methods means some compromises have to be made, if we wish to go all electric.
+
+We have specifically modelled for LTO batteries at 600 kWh, and for NMC at 800 kWh. As discussed earlier, these were the two options that were deemed most likely to be successful for this specific stretch. Still, for both of these, the operational time is on the scale of a few hours at best, before they need to be recharged. This holds true wether we’re looking at only minor loads, or at higher loads. These times only lessen the colder it gets outside, which means even more charging must be done. 
+
+This is ultimately the major trade-off that one makes when switching to batteries; the machines can simply not be as prepared for emergency situations when compared to diesel. However, that is not to say that it is not doable. For the specific stretch we have modelled -- Skøyen – Spikkestad -- these batteries should suffice, with charging only needed at the end stations. For the more general case, though, it seems fair to conclude that better charging infrastructure is needed, if this change is to be made for more of the machines. What exactly this would be, depends the distances between stations, and the already existing technology, such as over-head lines, or grid access. It also depends on the machines to be changed; certain machines may be operated while attached to a separate battery-container, whereas other machines -- such as the LT17 -- have replaceable modules under the boggi, which conceivably could be a part of a battery-replacement scheme of sorts.
+
+\pagebreak
 
 \printbibliography %Prints bibliography
 

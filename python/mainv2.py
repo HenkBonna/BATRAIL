@@ -10,7 +10,7 @@ import matplotlib.gridspec as gridspec
 gs = gridspec.GridSpec(nrows=3, ncols=2, width_ratios=[1, 1.5], height_ratios=[1, 1, 1.25])
 
 # Create the three axes
-fig = plt.figure(constrained_layout=True, figsize=(12, 7))
+fig = plt.figure("BATRAIL", constrained_layout=True, figsize=(12, 7))
 
 # Define Graph axes
 ax_temp = fig.add_subplot(gs[0, 0]) 
@@ -68,7 +68,7 @@ def simulato(duration, List_Of_Machines, Environment):
         else:
             temp_list = temp_profiles[i]
         b = List_Of_Machines[i].battery
-        capacity = b.capacity 
+        capacity = 0.95 *b.capacity 
         result = []
         # Running the simulation
         t = 0
@@ -78,20 +78,20 @@ def simulato(duration, List_Of_Machines, Environment):
         while t<duration:
             result.append(capacity)
             chrg = 0
-            if capacity < 0.2*b.capacity: 
+            if capacity < 0.1*b.capacity: 
                 charging = True
             if charging == True:
-                chrg = chargo(10, temp_list[t])
+                chrg = chargo(10*b.charge_rate, temp_list[t])
                 capacity = capacity + chrg # TODO: Fix this
-                if capacity > 0.9*b.capacity:
+                if capacity > 0.95*b.capacity:
                     charging = False
             else:
                 capacity = capacity - depleto((List_Of_Machines[i].consumption/60),temp_list[t]) # TODO: Fix this
 
             if(capacity<0):
                 capacity=0
-            elif(capacity>1000):
-                capacity=1000
+            #elif(capacity>1000):
+            #    capacity=1000
 
 
             charge_list.append(chrg)
@@ -104,15 +104,9 @@ def simulato(duration, List_Of_Machines, Environment):
     # Subgraphs
     ax_temp.set(ylabel='Temperature [C]')
     #ax_charge.plot(time_list,charge_list, 'tab:green')
-    ax_charge.set(xlabel='Time [min]', ylabel='Chargin rate')
+    ax_charge.set(xlabel='Time [min]', ylabel='Charging rate')
 
     # Main Graph
-
-    info_str_left = ""
-    info_str_right = ""
-
-    #info_str_left += "Machine:    " + List_Of_Machines[0].name + "\n     Consumption (Low):     " + str(List_Of_Machines[0].consumption) + "\nBattery:    " + b.name + "\n     Capacity:    " + str(b.capacity) + "\nStretch:    " + e. name + "\n";
-
     col='tab:green'
     for i in range(len(list_of_results)):
         col = cycle_col(col)
@@ -125,16 +119,6 @@ def simulato(duration, List_Of_Machines, Environment):
         ax_main.plot(time_list,list_of_results[i], col) # TODO: The m and b values are after assigning
         ax_charge.plot(time_list, charge_lists[i], col)
     ax_main.set(xlabel='Time [min]', ylabel='Capacity [kWh]')
-
-    info_str_left += "Stretch:        " + str(e.name) + "\n" + "Machine:        " + str(List_Of_Machines[0].name) + "\n" + "Battery:        " + str(List_Of_Machines[0].battery.name) + " – " + str(List_Of_Machines[0].battery.capacity) + " kWh\n" + "Consumption (Low):    " + str(List_Of_Machines[0].consumption) + " kWh/h\n" + "Consumption (High):    " + str(List_Of_Machines[1].consumption) + " kWh/h\n"
-
-    try:
-        info_str_right += "Stretch:        " + str(e.name) + "\n" + "Machine:        " + str(List_Of_Machines[0].name) + "\n" + "Battery:        " + str(List_Of_Machines[2].battery.name) + " – " + str(List_Of_Machines[2].battery.capacity) + " kWh\n" + "Consumption (Low):    " + str(List_Of_Machines[2].consumption) + "\n" + "Consumption (High):    " + str(List_Of_Machines[3].consumption) + "\n"
-    except:
-        info_str_right = ""
-
-    ax_info_1.text(0, 0, info_str_left, fontsize=12, bbox=props)
-    ax_info_2.text(0, 0, info_str_right, fontsize=12, bbox=props)
 
 # A very rough way of caluclating depletion-variation with temperature.
 def depleto(consumption, temperature):
@@ -208,17 +192,30 @@ def expand_array(input_array, length):
 
 def scenario_1():
     # DIFFERENT BATTERY TYPES, WITH VARYING CONSUMPTIONS
-    battery_1 = Battery('NMC',800, 0.8, 6800)
-    battery_2 = Battery('LTO',600, 0.8, 7260)
-    machine_1 = Machine('LT15', 7000, battery_1, 300)
-    machine_2 = Machine('LT15', 7000, battery_1, 100)
-    machine_3 = Machine('LT15', 7000, battery_2, 300)
-    machine_4 = Machine('LT15', 7000, battery_2, 100)
+    battery_1 = Battery('NMC',800, 3.0, 6800)
+    battery_2 = Battery('LTO',600, 3.0, 7260)
+    machine_1 = Machine('LT15', 7000, battery_1, 100)
+    machine_2 = Machine('LT15', 7000, battery_1, 300)
+    machine_3 = Machine('LT15', 7000, battery_2, 100)
+    machine_4 = Machine('LT15', 7000, battery_2, 300)
 
     temps_1 = [-19.20, -18.20, -22.01, -19, -20, -21, -20.29, -19.20, -18.10]
 
     environment = Environment('Skøyen - Spikkestad', 110, [temps_1, temps_1])
     duration = 180
+
+
+    #######
+    info_str_left = ""
+    info_str_left += "Stretch:        " + str(environment.name) + "\n" + "Machine:        " + str(machine_1.name) + "\n" + "Battery:        " + str(machine_1.battery.name) + " – " + str(machine_1.battery.capacity) + " kWh\n" + "Consumption (Low):    " + str(machine_1.consumption) + " kWh/h\n" + "Consumption (High):    " + str(machine_2.consumption) + " kWh/h\n"
+
+    info_str_right = ""
+    info_str_right += "Stretch:        " + str(environment.name) + "\n" + "Machine:        " + str(machine_3.name) + "\n" + "Battery:        " + str(machine_3.battery.name) + " – " + str(machine_3.battery.capacity) + " kWh\n" + "Consumption (Low):    " + str(machine_3.consumption) + "\n" + "Consumption (High):    " + str(machine_4.consumption) + "\n"
+
+
+    ax_info_1.text(0, 0, info_str_left, fontsize=12, bbox=props)
+    ax_info_2.text(0, 0, info_str_right, fontsize=12, bbox=props)
+    #######
 
     simulato(duration, [machine_1, machine_2, machine_3, machine_4], environment)
     plt.grid()
@@ -227,17 +224,121 @@ def scenario_1():
 
 def scenario_2():
     # Different Temperatures
-    battery_1 = Battery('NMC',800, 0.8, 6800)
+    battery_1 = Battery('LTO',600, 1.0, 7260)
     machine_1 = Machine('LT15', 7000, battery_1, 300)
 
     temps_2 = [-10, -12, -9, -10, -12, -9, -10, -12, -9, -10, -12, -9 ]
     temps_3 = [-10, -40]
 
     environment = Environment('Skøyen - Spikkestad', 110, [temps_2, temps_3])
-    duration = 180
+    duration = 90
+
+    #######
+    info_str_left = ""
+    info_str_left += "Stretch:        " + str(environment.name) + "\n" + "Machine:        " + str(machine_1.name) + "\n" + "Battery:        " + str(machine_1.battery.name) + " – " + str(machine_1.battery.capacity) + " kWh\n" + "Consumption (Cold):    " + str(machine_1.consumption) + " kWh/h\n"
+
+    info_str_right = ""
+    info_str_right += "Stretch:        " + str(environment.name) + "\n" + "Machine:        " + str(machine_1.name) + "\n" + "Battery:        " + str(machine_1.battery.name) + " – " + str(machine_1.battery.capacity) + " kWh\n" + "Consumption (Colder):    " + str(machine_1.consumption) + " kWh/h\n"
+
+
+    ax_info_1.text(0, 0, info_str_left, fontsize=12, bbox=props)
+    ax_info_2.text(0, 0, info_str_right, fontsize=12, bbox=props)
+    #######
 
     simulato(duration, [machine_1, machine_1], environment)
     plt.grid()
     plt.show()
 
-scenario_2()
+
+def scenario_3():
+    # Different c_rates
+    battery_1 = Battery('LTO',600, 1.0, 7260)
+    battery_2 = Battery('LTO',600, 3.0, 7260)
+    machine_1 = Machine('LT15', 7000, battery_1, 300)
+    machine_2 = Machine('LT15', 7000, battery_2, 300)
+
+    temps_1 = [-19.20, -18.20, -22.01, -19, -20, -21, -20.29, -19.20, -18.10]
+
+    environment = Environment('Skøyen - Spikkestad', 110, [temps_1])
+    duration = 180
+
+    simulato(duration, [machine_1, machine_2], environment)
+
+    #######
+    info_str_left = ""
+    info_str_left += "Stretch:        " + str(environment.name) + "\n" + "Machine:        " + str(machine_1.name) + "\n" + "Battery:        " + str(machine_1.battery.name) + " – " + str(machine_1.battery.capacity) + " kWh\n" + "Consumption:    " + str(machine_1.consumption) + " kWh/h\n" + "C-rate:                " + str(machine_1.battery.charge_rate) + " \n"
+
+    info_str_right = ""
+    info_str_right += "Stretch:        " + str(environment.name) + "\n" + "Machine:        " + str(machine_2.name) + "\n" + "Battery:        " + str(machine_2.battery.name) + " – " + str(machine_2.battery.capacity) + " kWh\n" + "Consumption:    " + str(machine_2.consumption) + " kWh/h\n" + "C-rate:                " + str(machine_2.battery.charge_rate) + "\n"
+
+
+    ax_info_1.text(0, 0, info_str_left, fontsize=12, bbox=props)
+    ax_info_2.text(0, 0, info_str_right, fontsize=12, bbox=props)
+    #######
+
+    plt.grid()
+    plt.show()
+
+def scenario_4():
+    # Hydraulic vs Electric consumptions
+    battery_1 = Battery('LTO',600, 3.0, 7260)
+
+    machine_1 = Machine('LT15 (Electric)', 7000, battery_1, 177)
+    machine_2 = Machine('LT15 ', 7000, battery_1, 295)
+    machine_3 = Machine('LT15 (Hydraulic)', 7000, battery_1, 265)
+    machine_4 = Machine('LT15', 7000, battery_1, 441)
+
+    temps_1 = [-19.20, -18.20, -22.01, -19, -20, -21, -20.29, -19.20, -18.10]
+
+    environment = Environment('Skøyen - Spikkestad', 110, [temps_1])
+    duration = 180
+
+    simulato(duration, [machine_1, machine_2, machine_3, machine_4], environment)
+
+    #######
+    info_str_left = ""
+    info_str_left += "Stretch:                " + str(environment.name) + "\n" + "Machine:                      " + str(machine_1.name) + "\n" + "Battery:                        " + str(machine_1.battery.name) + " – " + str(machine_1.battery.capacity) + " kWh\n" + "Consumption (Clearing):    " + str(machine_1.consumption) + " kWh/h\n" + "Consumption (Blowing):     " + str(machine_2.consumption) + " kWh/h\n" + "C-rate:                                " + str(machine_1.battery.charge_rate) + "\n"
+
+    info_str_right = ""
+    info_str_right += "Stretch:                " + str(environment.name) + "\n" + "Machine:                    " + str(machine_3.name) + "\n" + "Battery:                        " + str(machine_3.battery.name) + " – " + str(machine_3.battery.capacity) + " kWh\n" + "Consumption (Clearing):    " + str(machine_3.consumption) + " kWh/h\n" + "Consumption (Blowing):     " + str(machine_4.consumption) + " kWh/h\n" + "C-rate:                                " + str(machine_3.battery.charge_rate) + "\n"
+
+
+    ax_info_1.text(0, 0, info_str_left, fontsize=12, bbox=props)
+    ax_info_2.text(0, 0, info_str_right, fontsize=12, bbox=props)
+    #######
+
+    plt.grid()
+    plt.show()
+
+def scenario_5():
+    # Diesel v Battery
+    # 125.5 MWh
+    battery_1 = Battery('LTO', 600, 3.0, 7260)
+    battery_2 = Battery('Diesel',33375, 3.0, 1255)
+
+    machine_1 = Machine('LT15', 7000, battery_1, 300)
+    machine_2 = Machine('LT15', 7000, battery_2, 300)
+
+    temps_1 = [-19.20, -18.20, -22.01, -19, -20, -21, -20.29, -19.20, -18.10]
+
+    environment = Environment('Skøyen - Spikkestad', 110, [temps_1])
+    duration = 600
+
+    simulato(duration, [machine_1, machine_2], environment)
+
+    #######
+    info_str_left = ""
+    info_str_left += "Stretch:        " + str(environment.name) + "\n" + "Machine:        " + str(machine_2.name) + "\n" + "Diesel equiv.:    " + "12500 L" + " ≃ " + str(machine_2.battery.capacity) + " kWH\n" + "Consumption (Low):    " + str(machine_2.consumption) + " kWh/h\n"
+
+    info_str_right = ""
+    info_str_right += "Stretch:        " + str(environment.name) + "\n" + "Machine:        " + str(machine_1.name) + "\n" + "Battery:        " + str(machine_1.battery.name) + " – " + str(machine_1.battery.capacity) + " kWh\n" + "Consumption :    " + str(machine_1.consumption) + "kWh/h\n"
+
+
+    ax_info_1.text(0, 0, info_str_left, fontsize=12, bbox=props)
+    ax_info_2.text(0, 0, info_str_right, fontsize=12, bbox=props)
+    #######
+
+    plt.grid()
+    plt.show()
+
+scenario_4()
